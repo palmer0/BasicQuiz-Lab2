@@ -1,6 +1,7 @@
 package es.ulpgc.eite.da.basicquizlab;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -56,26 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
   }
 
-  /*
-
-
-
-  //TODO: en vez de usar un metodo para cada boton, podemos
-  // hacerlo usando un solo metodo para todos los botones
-  public void onButtonClick(View view) {
-
-    switch (view.getId()) {
-      case R.id.falseButton:
-        onFalseButtonClick(view);
-      case R.id.trueButton:
-        onTrueButtonClick(view);
-      case R.id.nextButton:
-        onNextButtonClick(view);
-      case R.id.cheatButton:
-        onCheatButtonClick(view);
-    }
-
-  }
 
   //TODO: impedir que podamos hacer click en el boton
   // si ya hemos contestado a la pregunta
@@ -101,6 +82,39 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
+  /*
+  public void onNextButtonClick(View view) {
+    questionIndex++;
+
+    //initLayoutContent();
+
+    //TODO: refactorizar en un método este codigo repetido
+    questionText.setText(questionArray[questionIndex]);
+    replyText.setText(R.string.empty_text);
+  }
+  */
+
+
+  /*
+
+  //TODO: en vez de usar un metodo para cada boton, podemos
+  // hacerlo usando un solo metodo para todos los botones
+  public void onButtonClick(View view) {
+
+    switch (view.getId()) {
+      case R.id.falseButton:
+        onFalseButtonClick(view);
+      case R.id.trueButton:
+        onTrueButtonClick(view);
+      case R.id.nextButton:
+        onNextButtonClick(view);
+      case R.id.cheatButton:
+        onCheatButtonClick(view);
+    }
+
+  }
+  */
+
   //TODO: implementar boton para pasar a siguiente pantalla
   public void onCheatButtonClick(View view) {
     // no implementado
@@ -123,6 +137,5 @@ public class MainActivity extends AppCompatActivity {
     questionText.setText(questionArray[questionIndex]);
     replyText.setText(R.string.empty_text);
   }
-  */
 
 }
