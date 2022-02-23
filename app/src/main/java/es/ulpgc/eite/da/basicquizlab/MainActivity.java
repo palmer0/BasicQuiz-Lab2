@@ -88,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
     });
   }
 
+  private void updateButtonsStatus() {
+    trueButton.setEnabled(!nextButtonEnabled);
+    falseButton.setEnabled(!nextButtonEnabled);
+    cheatButton.setEnabled(!nextButtonEnabled);
+    nextButton.setEnabled(nextButtonEnabled);
+
+  }
 
   //TODO: impedir que podamos hacer click en el boton
   // si ya hemos contestado a la pregunta
@@ -108,11 +115,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     nextButtonEnabled = true;
+    updateButtonsStatus();
 
+    /*
+    trueButton.setEnabled(!nextButtonEnabled);
+    falseButton.setEnabled(!nextButtonEnabled);
+    cheatButton.setEnabled(!nextButtonEnabled);
+    nextButton.setEnabled(nextButtonEnabled);
+    */
+
+    /*
     trueButton.setEnabled(false);
     falseButton.setEnabled(false);
     cheatButton.setEnabled(false);
     nextButton.setEnabled(true);
+    */
 
   }
 
@@ -134,11 +151,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     nextButtonEnabled = true;
+    updateButtonsStatus();
 
+    /*
+    trueButton.setEnabled(!nextButtonEnabled);
+    falseButton.setEnabled(!nextButtonEnabled);
+    cheatButton.setEnabled(!nextButtonEnabled);
+    nextButton.setEnabled(nextButtonEnabled);
+    */
+
+    /*
     trueButton.setEnabled(false);
     falseButton.setEnabled(false);
     cheatButton.setEnabled(false);
     nextButton.setEnabled(true);
+    */
   }
 
   //TODO: implementar boton para pasar a siguiente pantalla
@@ -157,11 +184,21 @@ public class MainActivity extends AppCompatActivity {
     */
 
     nextButtonEnabled = false;
+    updateButtonsStatus();
 
+    /*
+    trueButton.setEnabled(!nextButtonEnabled);
+    falseButton.setEnabled(!nextButtonEnabled);
+    cheatButton.setEnabled(!nextButtonEnabled);
+    nextButton.setEnabled(nextButtonEnabled);
+    */
+
+    /*
     trueButton.setEnabled(true);
     falseButton.setEnabled(true);
     cheatButton.setEnabled(true);
     nextButton.setEnabled(false);
+    */
 
     questionIndex++;
 
