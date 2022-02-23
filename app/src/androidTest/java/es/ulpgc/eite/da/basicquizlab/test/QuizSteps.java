@@ -27,7 +27,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import es.ulpgc.eite.da.basicquizlab.MainActivity;
+import es.ulpgc.eite.da.basicquizlab.QuestionActivity;
 import es.ulpgc.eite.da.basicquizlab.R;
 
 @SuppressWarnings("ALL")
@@ -36,8 +36,8 @@ public class QuizSteps {
   private static final int DELAY_IN_SECS = 0 * 1000;
 
   @Rule
-  public ActivityTestRule<MainActivity> testRule =
-      new ActivityTestRule(MainActivity.class, true, false);
+  public ActivityTestRule<QuestionActivity> testRule =
+      new ActivityTestRule(QuestionActivity.class, true, false);
 
   private Activity activity;
 

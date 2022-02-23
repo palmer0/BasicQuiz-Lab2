@@ -1,13 +1,20 @@
 package es.ulpgc.eite.da.basicquizlab;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class QuestionActivity extends AppCompatActivity {
+
+  public static final String TAG = "Quiz.QuestionActivity";
+
+  public final static int CHEAT_REQUEST = 1;
+
 
   private Button falseButton, trueButton,cheatButton, nextButton;
   private TextView questionText, replyText;
@@ -20,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_question);
 
     getSupportActionBar().setTitle(R.string.question_title);
 
@@ -55,19 +62,26 @@ public class MainActivity extends AppCompatActivity {
 
   private void enableLayoutButtons() {
 
+    trueButton.setOnClickListener(v -> {
+      onTrueButtonClicked();
+      // lamadas a mas metodos
+    });
+
+    /*
     trueButton.setOnClickListener(new View.OnClickListener() {
 
       @Override
       public void onClick(View v) {
-        onTrueButtonClicked(v);
+        onTrueButtonClicked();
       }
     });
+    */
 
     falseButton.setOnClickListener(new View.OnClickListener() {
 
       @Override
       public void onClick(View v) {
-        onFalseButtonClicked(v);
+        onFalseButtonClicked();
       }
     });
 
@@ -75,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
       @Override
       public void onClick(View v) {
-        onNextButtonClicked(v);
+        onNextButtonClicked();
       }
     });
 
@@ -83,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
       @Override
       public void onClick(View v) {
-        onCheatButtonClicked(v);
+        onCheatButtonClicked();
       }
     });
   }
@@ -98,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
   //TODO: impedir que podamos hacer click en el boton
   // si ya hemos contestado a la pregunta
-  private void onTrueButtonClicked(View v) {
+  private void onTrueButtonClicked() {
 
     /*
     //if(nextButtonEnabled == true)  =>  if(nextButtonEnabled)
@@ -135,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
   //TODO: impedir que podamos hacer click en el boton
   // si ya hemos contestado a la pregunta
-  private void onFalseButtonClicked(View v) {
+  private void onFalseButtonClicked() {
 
     /*
     if(nextButtonEnabled) {
@@ -169,13 +183,50 @@ public class MainActivity extends AppCompatActivity {
   }
 
   //TODO: implementar boton para pasar a siguiente pantalla
-  private void onCheatButtonClicked(View v) {
-    // no implementado
+  private void onCheatButtonClicked() {
+
+    /*
+    if(nextButtonEnabled) {
+      return;
+    }
+    */
+
+    Intent intent = new Intent(QuestionActivity.this, CheatActivity.class);
+    //intent.putExtra(CheatActivity.EXTRA_ANSWER, replyArray[questionIndex]);
+    intent.putExtra(CheatActivity.EXTRA_INDEX, questionIndex);
+    //startActivity(intent);
+    startActivityForResult(intent, CHEAT_REQUEST);
   }
+
+
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    super.onActivityResult(requestCode, resultCode, intent);
+
+    Log.d(TAG, "onActivityResult()");
+
+    if (requestCode == CHEAT_REQUEST) {
+      if (resultCode == RESULT_OK) {
+
+        boolean answerCheated =
+            intent.getBooleanExtra(CheatActivity.EXTRA_CHEATED, false);
+
+        Log.d(TAG, "answerCheated: " + answerCheated);
+
+        // el usuario si que ha visto el resultado
+        if(answerCheated) {
+          nextButtonEnabled = true;
+          onNextButtonClicked();
+        }
+      }
+    }
+  }
+
 
   //TODO: impedir que podamos hacer click en el boton
   // si aun no hemos contestado a la pregunta
-  private void onNextButtonClicked(View v) {
+  private void onNextButtonClicked() {
 
     /*
     if(!nextButtonEnabled) {
