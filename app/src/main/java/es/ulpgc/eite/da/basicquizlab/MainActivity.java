@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     linkLayoutComponents();
     initLayoutContent();
     enableLayoutButtons();
+
+    nextButton.setEnabled(false);
+
   }
 
   private void initLayoutData() {
@@ -90,9 +93,13 @@ public class MainActivity extends AppCompatActivity {
   // si ya hemos contestado a la pregunta
   private void onTrueButtonClicked(View v) {
 
-    if(nextButtonEnabled) {
+    /*
+    //if(nextButtonEnabled == true)  =>  if(nextButtonEnabled)
+    //if(nextButtonEnabled == false)  =>  if(!nextButtonEnabled)
+    if(nextButtonEnabled ) {
       return;
     }
+    */
 
     if(replyArray[questionIndex] == 1) {
       replyText.setText(R.string.correct_text);
@@ -101,15 +108,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     nextButtonEnabled = true;
+
+    trueButton.setEnabled(false);
+    falseButton.setEnabled(false);
+    cheatButton.setEnabled(false);
+    nextButton.setEnabled(true);
+
   }
 
   //TODO: impedir que podamos hacer click en el boton
   // si ya hemos contestado a la pregunta
   private void onFalseButtonClicked(View v) {
 
+    /*
     if(nextButtonEnabled) {
       return;
     }
+    */
+
 
     if(replyArray[questionIndex] == 0) {
       replyText.setText(R.string.correct_text);
@@ -118,6 +134,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     nextButtonEnabled = true;
+
+    trueButton.setEnabled(false);
+    falseButton.setEnabled(false);
+    cheatButton.setEnabled(false);
+    nextButton.setEnabled(true);
   }
 
   //TODO: implementar boton para pasar a siguiente pantalla
@@ -129,11 +150,19 @@ public class MainActivity extends AppCompatActivity {
   // si aun no hemos contestado a la pregunta
   private void onNextButtonClicked(View v) {
 
+    /*
     if(!nextButtonEnabled) {
       return;
     }
+    */
 
     nextButtonEnabled = false;
+
+    trueButton.setEnabled(true);
+    falseButton.setEnabled(true);
+    cheatButton.setEnabled(true);
+    nextButton.setEnabled(false);
+
     questionIndex++;
 
     // si queremos que el quiz acabe al llegar
