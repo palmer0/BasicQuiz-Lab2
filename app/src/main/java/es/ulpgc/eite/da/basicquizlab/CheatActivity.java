@@ -12,7 +12,6 @@ public class CheatActivity extends AppCompatActivity {
 
   public static final String TAG = "Quiz.CheatActivity";
 
-  public final static String EXTRA_INDEX = "EXTRA_INDEX";
   public final static String EXTRA_ANSWER = "EXTRA_ANSWER";
   public final static String EXTRA_CHEATED = "EXTRA_CHEATED";
 
@@ -30,22 +29,14 @@ public class CheatActivity extends AppCompatActivity {
     getSupportActionBar().setTitle(R.string.cheat_title);
 
     initLayoutData();
+
     linkLayoutComponents();
     enableLayoutButtons();
   }
 
   private void initLayoutData() {
-    //currentAnswer = getIntent().getExtras().getInt(EXTRA_ANSWER);
-    int questionIndex = getIntent().getExtras().getInt(EXTRA_INDEX);
-
-    //questionArray=getResources().getStringArray(R.array.question_array);
-    int[] replyArray = getResources().getIntArray(R.array.reply_array);
-    currentAnswer = replyArray[questionIndex];
-
-    Log.d(TAG, "questionIndex: " + questionIndex);
-    Log.d(TAG, "currentAnswer: " + currentAnswer);
+    currentAnswer = getIntent().getExtras().getInt(EXTRA_ANSWER);
   }
-
 
   private void linkLayoutComponents() {
     noButton = findViewById(R.id.noButton);
@@ -60,43 +51,6 @@ public class CheatActivity extends AppCompatActivity {
     yesButton.setOnClickListener(v -> onYesButtonClicked());
   }
 
-  private void onYesButtonClicked() {
-
-    /*
-    yesButton.setEnabled(false);
-    noButton.setEnabled(false);
-    */
-
-    answerCheated = true;
-
-    if(currentAnswer == 0) {
-      answerText.setText(R.string.false_text);
-    } else {
-      answerText.setText(R.string.true_text);
-
-    }
-
-    returnCheatedStatus();
-
-  }
-
-  private void onNoButtonClicked() {
-    /*
-    yesButton.setEnabled(false);
-    noButton.setEnabled(false);
-    */
-
-    //returnCheatedStatus();
-
-    //Intent intent = new Intent(CheatActivity.this, QuestionActivity.class);
-    //startActivity(intent);
-
-    finish();
-  }
-
-
-
-
   private void returnCheatedStatus() {
     Log.d(TAG, "returnCheatedStatus()");
     Log.d(TAG, "answerCheated: " + answerCheated);
@@ -105,12 +59,8 @@ public class CheatActivity extends AppCompatActivity {
     intent.putExtra(EXTRA_CHEATED, answerCheated);
     setResult(RESULT_OK, intent);
 
-    //finish();
+    finish();
   }
-
-
-  /*
-
 
   @Override
   public void onBackPressed() {
@@ -120,6 +70,24 @@ public class CheatActivity extends AppCompatActivity {
   }
 
 
+  private void onYesButtonClicked() {
+    yesButton.setEnabled(false);
+    noButton.setEnabled(false);
+    answerCheated = true;
 
-  */
+    if(currentAnswer == 0) {
+      answerText.setText(R.string.false_text);
+    } else {
+      answerText.setText(R.string.true_text);
+
+    }
+  }
+
+  private void onNoButtonClicked() {
+    yesButton.setEnabled(false);
+    noButton.setEnabled(false);
+
+    returnCheatedStatus();
+  }
+
 }
