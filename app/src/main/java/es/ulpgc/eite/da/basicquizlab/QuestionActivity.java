@@ -6,11 +6,17 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class QuestionActivity extends AppCompatActivity {
 
   public static final String TAG = "Quiz.QuestionActivity";
+
+  public static final String STATE_INDEX = "Quiz.Question.STATE_INDEX";
+  public static final String STATE_NEXT_BTN = "Quiz.Question.STATE_NEXT_BTN";
+  public static final String STATE_CLICK_BTN = "Quiz.Question.STATE_CLICK_BTN";
+
 
   public static final int CHEAT_REQUEST = 1;
 
@@ -20,21 +26,84 @@ public class QuestionActivity extends AppCompatActivity {
   private String[] questionArray;
   private int questionIndex=0;
   private int[] replyArray;
-  private boolean nextButtonEnabled;
+  private boolean nextButtonEnabled, trueButtonClicked;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Log.d(TAG, "onCreate()");
     setContentView(R.layout.activity_question);
 
     getSupportActionBar().setTitle(R.string.question_title);
+
+    // si ocurre esto es q la activity se esta re-creando (no creando)
+    if(savedInstanceState != null){
+      Log.d(TAG, "onCreate(): recuperando estado...");
+
+      questionIndex=savedInstanceState.getInt(STATE_INDEX);
+      nextButtonEnabled=savedInstanceState.getBoolean(STATE_NEXT_BTN);
+      trueButtonClicked=savedInstanceState.getBoolean(STATE_CLICK_BTN);
+    }
 
     initLayoutData();
     linkLayoutComponents();
     updateLayoutContent();
     enableLayoutButtons();
+
+    if(savedInstanceState != null){
+
+      // si has contestado debemos actualizar mensaje de pantalla
+      if(nextButtonEnabled) {
+
+        if(trueButtonClicked) { // has pulsado el btn true
+
+          if(replyArray[questionIndex] == 1) {
+            replyText.setText(R.string.correct_text);
+          } else {
+            replyText.setText(R.string.incorrect_text);
+          }
+
+        } else { // has pulsado el btn false
+
+          if(replyArray[questionIndex] == 0) {
+            replyText.setText(R.string.correct_text);
+          } else {
+            replyText.setText(R.string.incorrect_text);
+          }
+        }
+      }
+    }
   }
 
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    Log.d(TAG, "onResume()");
+
+  }
+
+  @Override
+  protected void onSaveInstanceState(@NonNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Log.d(TAG, "onSaveInstanceState()");
+
+    outState.putInt(STATE_INDEX, questionIndex);
+    outState.putBoolean(STATE_NEXT_BTN, nextButtonEnabled);
+    outState.putBoolean(STATE_CLICK_BTN, trueButtonClicked);
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    Log.d(TAG, "onPause()");
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    Log.d(TAG, "onDestroy()");
+  }
 
   private void enableLayoutButtons() {
 
@@ -90,6 +159,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     nextButtonEnabled = true;
+    trueButtonClicked = true;
     updateLayoutContent();
   }
 
@@ -107,6 +177,7 @@ public class QuestionActivity extends AppCompatActivity {
       replyText.setText(R.string.incorrect_text);
     }
 
+    trueButtonClicked = false;
     nextButtonEnabled = true;
     updateLayoutContent();
 
