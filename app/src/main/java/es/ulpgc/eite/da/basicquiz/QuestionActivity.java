@@ -32,7 +32,7 @@ public class QuestionActivity extends AppCompatActivity {
         initLayoutData();
         linkLayoutComponents();
         updateLayoutContent();
-//        initLayoutButtons();
+        initLayoutButtons();
     }
 
     private void initLayoutData() {
@@ -139,6 +139,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         if (answersArray[questionIndex] == 1) {
             resultText =  getString(R.string.correct_text);
+            //resultText = "Correct!"; // hardcodeado
         } else {
             resultText = getString(R.string.incorrect_text);
         }
@@ -176,7 +177,21 @@ public class QuestionActivity extends AppCompatActivity {
 
         if (questionIndex < questionsArray.length) {
             //trueButtonPressed = false;
+
             updateLayoutContent();
+
+            /*questionField.setText(questionsArray[questionIndex]);
+
+            if (!nextButtonEnabled) {
+                resultText = getString(R.string.empty_text);
+            }
+
+            resultField.setText(resultText);
+
+            nextButton.setEnabled(nextButtonEnabled);
+            cheatButton.setEnabled(!nextButtonEnabled);
+            falseButton.setEnabled(!nextButtonEnabled);
+            trueButton.setEnabled(!nextButtonEnabled);*/
         }
 
     }
