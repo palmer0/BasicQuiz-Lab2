@@ -29,10 +29,15 @@ public class QuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question);
         setTitle(R.string.question_screen_title);
 
-//        initLayoutData();
-//        linkLayoutComponents();
-//        updateLayoutContent();
+        initLayoutData();
+        linkLayoutComponents();
+        updateLayoutContent();
 //        initLayoutButtons();
+    }
+
+    private void initLayoutData() {
+        questionsArray = getResources().getStringArray(R.array.questions_array);
+        answersArray = getResources().getIntArray(R.array.answers_array);
     }
 
     private void initLayoutButtons() {
@@ -41,12 +46,6 @@ public class QuestionActivity extends AppCompatActivity {
         falseButton.setOnClickListener(v -> onFalseButtonClicked());
         nextButton.setOnClickListener(v -> onNextButtonClicked());
         cheatButton.setOnClickListener(v -> onCheatButtonClicked());
-    }
-
-
-    private void initLayoutData() {
-        questionsArray = getResources().getStringArray(R.array.questions_array);
-        answersArray = getResources().getIntArray(R.array.answers_array);
     }
 
     private void linkLayoutComponents() {
@@ -58,6 +57,10 @@ public class QuestionActivity extends AppCompatActivity {
         questionField = findViewById(R.id.questionField);
         resultField = findViewById(R.id.resultField);
     }
+
+
+
+
 
     /*
     private void updateLayoutContent() {
