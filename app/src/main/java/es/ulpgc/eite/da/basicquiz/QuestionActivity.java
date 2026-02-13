@@ -12,6 +12,8 @@ public class QuestionActivity extends AppCompatActivity {
 
     public static final String TAG = "Quiz.QuestionActivity";
 
+    public static final int CHEAT_REQUEST = 1;
+
     private Button falseButton, trueButton, cheatButton, nextButton;
     private TextView questionField, resultField;
 
@@ -35,17 +37,18 @@ public class QuestionActivity extends AppCompatActivity {
         initLayoutButtons();
     }
 
-    private void initLayoutData() {
-        questionsArray = getResources().getStringArray(R.array.questions_array);
-        answersArray = getResources().getIntArray(R.array.answers_array);
-    }
-
     private void initLayoutButtons() {
 
         trueButton.setOnClickListener(v -> onTrueButtonClicked());
         falseButton.setOnClickListener(v -> onFalseButtonClicked());
         nextButton.setOnClickListener(v -> onNextButtonClicked());
         cheatButton.setOnClickListener(v -> onCheatButtonClicked());
+    }
+
+
+    private void initLayoutData() {
+        questionsArray = getResources().getStringArray(R.array.questions_array);
+        answersArray = getResources().getIntArray(R.array.answers_array);
     }
 
     private void linkLayoutComponents() {
@@ -57,10 +60,6 @@ public class QuestionActivity extends AppCompatActivity {
         questionField = findViewById(R.id.questionField);
         resultField = findViewById(R.id.resultField);
     }
-
-
-
-
 
     /*
     private void updateLayoutContent() {
@@ -139,7 +138,6 @@ public class QuestionActivity extends AppCompatActivity {
 
         if (answersArray[questionIndex] == 1) {
             resultText =  getString(R.string.correct_text);
-            //resultText = "Correct!"; // hardcodeado
         } else {
             resultText = getString(R.string.incorrect_text);
         }
@@ -163,9 +161,33 @@ public class QuestionActivity extends AppCompatActivity {
     @SuppressWarnings("ALL")
     private void onCheatButtonClicked() {
 
-
+        Intent intent = new Intent(this, CheatActivity.class);
+        intent.putExtra(CheatActivity.EXTRA_ANSWER, answersArray[questionIndex]);
+        startActivityForResult(intent, CHEAT_REQUEST);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        Log.d(TAG, "onActivityResult");
+
+        if (requestCode == CHEAT_REQUEST && resultCode == RESULT_OK && intent != null) {
+
+            boolean answerCheated = intent.getBooleanExtra(
+                CheatActivity.EXTRA_CHEATED, false
+            );
+
+            //Log.d(TAG, "answerCheated: " + answerCheated);
+
+            if (answerCheated) {
+                nextButtonEnabled = true;
+                onNextButtonClicked();
+            }
+
+        }
+
+    }
 
     private void onNextButtonClicked() {
         Log.d(TAG, "onNextButtonClicked");
@@ -177,21 +199,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         if (questionIndex < questionsArray.length) {
             //trueButtonPressed = false;
-
             updateLayoutContent();
-
-            /*questionField.setText(questionsArray[questionIndex]);
-
-            if (!nextButtonEnabled) {
-                resultText = getString(R.string.empty_text);
-            }
-
-            resultField.setText(resultText);
-
-            nextButton.setEnabled(nextButtonEnabled);
-            cheatButton.setEnabled(!nextButtonEnabled);
-            falseButton.setEnabled(!nextButtonEnabled);
-            trueButton.setEnabled(!nextButtonEnabled);*/
         }
 
     }

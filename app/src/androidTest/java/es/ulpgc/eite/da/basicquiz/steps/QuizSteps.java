@@ -127,7 +127,6 @@ public class QuizSteps {
         }
     }
 
-    /*
     @And("mostrar mensaje Warning")
     public void mostrarMensajeWarning() {
         onView(withId(R.id.warningField)).check(matches(withText("Are you sure?")));
@@ -145,7 +144,6 @@ public class QuizSteps {
         onView(withId(R.id.yesButton)).check(matches(isEnabled()));
         onView(withId(R.id.noButton)).check(matches(isEnabled()));
     }
-    */
 
     @And("pulsar boton Back")
     public void pulsarBotonBack() {
@@ -157,12 +155,10 @@ public class QuizSteps {
         pressBack();
     }
 
-    /*
     @And("pulsar boton No")
     public void pulsarBotonNo() {
         onView(withId(R.id.noButton)).perform(click());
     }
-    */
 
     @And("finalizar pantalla Cheat")
     public void finalizarPantallaCheat() {
@@ -182,7 +178,6 @@ public class QuizSteps {
         }
     }
 
-    /*
     @And("pulsar boton Yes")
     public void pulsarBotonYes() {
         onView(withId(R.id.yesButton)).perform(click());
@@ -198,7 +193,6 @@ public class QuizSteps {
         onView(withId(R.id.yesButton)).check(matches(not(isEnabled())));
         onView(withId(R.id.noButton)).check(matches(not(isEnabled())));
     }
-    */
 
     @And("pulsar boton Next")
     public void pulsarBotonNext() {
