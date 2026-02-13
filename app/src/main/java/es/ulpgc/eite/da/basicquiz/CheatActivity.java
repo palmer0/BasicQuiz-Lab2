@@ -13,7 +13,8 @@ public class CheatActivity extends AppCompatActivity {
   public static final String TAG = "Quiz.CheatActivity";
 
 
-  public final static String EXTRA_ANSWER = "EXTRA_ANSWER";
+  //public final static String EXTRA_ANSWER = "EXTRA_ANSWER";
+  public final static String EXTRA_ANSWER = "RESPUESTA_A_PREGUNTA_ACTUAL";
   public final static String EXTRA_CHEATED = "EXTRA_CHEATED";
 
   private Button noButton, yesButton;
@@ -30,9 +31,9 @@ public class CheatActivity extends AppCompatActivity {
 
     Log.d(TAG, "onCreate");
 
-//    linkLayoutComponents();
-//    initLayoutData();
-//    initLayoutButtons();
+    linkLayoutComponents();
+    initLayoutData();
+    initLayoutButtons();
   }
 
 
@@ -41,6 +42,8 @@ public class CheatActivity extends AppCompatActivity {
 
     if ( intent != null) {
       currentAnswer = intent.getExtras().getInt(EXTRA_ANSWER);
+
+    Log.d(TAG, "currentAnswer: " + currentAnswer);
     }
   }
 
@@ -65,7 +68,7 @@ public class CheatActivity extends AppCompatActivity {
 
     Intent intent = new Intent();
     intent.putExtra(EXTRA_CHEATED, answerCheated);
-    setResult(RESULT_OK, intent);
+    setResult(RESULT_OK, intent); // RESULT_CANCELED
 
     finish();
 
@@ -80,27 +83,31 @@ public class CheatActivity extends AppCompatActivity {
     returnCheatedStatus();
   }
 
+    private void updateLayoutContent() {
+
+        if(currentAnswer == 0) {
+            answerField.setText(R.string.false_text);
+        } else { // currentAnswer == 1
+            answerField.setText(R.string.true_text);
+
+        }
+    }
 
   private void onYesButtonClicked() {
     yesButton.setEnabled(false);
     noButton.setEnabled(false);
-    answerCheated = true;
+
+    answerCheated = true; // has visto la respuesta
     updateLayoutContent();
   }
 
-  private void updateLayoutContent() {
 
-    if(currentAnswer == 0) {
-      answerField.setText(R.string.false_text);
-    } else {
-      answerField.setText(R.string.true_text);
-
-    }
-  }
 
   private void onNoButtonClicked() {
     yesButton.setEnabled(false);
     noButton.setEnabled(false);
+
+    answerCheated = false;
 
     returnCheatedStatus();
   }

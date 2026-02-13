@@ -162,7 +162,8 @@ public class QuestionActivity extends AppCompatActivity {
     private void onCheatButtonClicked() {
 
         Intent intent = new Intent(this, CheatActivity.class);
-        intent.putExtra(CheatActivity.EXTRA_ANSWER, answersArray[questionIndex]);
+        intent.putExtra(CheatActivity.EXTRA_ANSWER, answersArray[questionIndex]); // key, value
+        //startActivity(intent);
         startActivityForResult(intent, CHEAT_REQUEST);
     }
 
@@ -174,15 +175,26 @@ public class QuestionActivity extends AppCompatActivity {
 
         if (requestCode == CHEAT_REQUEST && resultCode == RESULT_OK && intent != null) {
 
+            // si has visto la respuesta o no !
             boolean answerCheated = intent.getBooleanExtra(
                 CheatActivity.EXTRA_CHEATED, false
             );
 
             //Log.d(TAG, "answerCheated: " + answerCheated);
 
-            if (answerCheated) {
-                nextButtonEnabled = true;
-                onNextButtonClicked();
+            if (answerCheated) { // si que has visto la respuesta
+
+                nextButtonEnabled = true; // adaptacion para "onNextButtonClicked()"
+                onNextButtonClicked(); // simular clic en boton "NExt"
+
+                /*questionIndex++;
+
+                checkQuizCompletion();
+
+                if (questionIndex < questionsArray.length) {
+                    //trueButtonPressed = false;
+                    updateLayoutContent();
+                }*/
             }
 
         }
