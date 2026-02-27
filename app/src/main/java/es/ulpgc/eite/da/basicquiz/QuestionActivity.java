@@ -12,6 +12,10 @@ public class QuestionActivity extends AppCompatActivity {
 
     public static final String TAG = "Quiz.QuestionActivity";
 
+    public final static String KEY_INDEX = "KEY_INDEX";
+    //public final static String KEY_PRESSED = "KEY_PRESSED";
+    public final static String KEY_RESULT = "KEY_RESULT";
+    public final static String KEY_ENABLED = "KEY_ENABLED";
     public static final int CHEAT_REQUEST = 1;
 
     private Button falseButton, trueButton, cheatButton, nextButton;
@@ -31,10 +35,55 @@ public class QuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question);
         setTitle(R.string.question_screen_title);
 
+        Log.d(TAG, "onCreate");
+
         initLayoutData();
         linkLayoutComponents();
+
+        if (savedInstanceState != null) {
+            Log.d(TAG, "Recuperando estado guardado...");
+
+            questionIndex = savedInstanceState.getInt(KEY_INDEX);
+            resultText = savedInstanceState.getString(KEY_RESULT);
+            //trueButtonPressed = savedInstanceState.getBoolean(KEY_PRESSED);
+            nextButtonEnabled = savedInstanceState.getBoolean(KEY_ENABLED);
+        }
+
         updateLayoutContent();
         initLayoutButtons();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d(TAG, "onResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Log.d(TAG, "onPause");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d(TAG, "onDestroy");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Log.d(TAG, "onSaveInstanceState");
+
+        outState.putInt(KEY_INDEX, questionIndex);
+        outState.putString(KEY_RESULT, resultText);
+        //outState.putBoolean(KEY_PRESSED, trueButtonPressed);
+        outState.putBoolean(KEY_ENABLED, nextButtonEnabled);
     }
 
     private void initLayoutButtons() {
@@ -162,8 +211,7 @@ public class QuestionActivity extends AppCompatActivity {
     private void onCheatButtonClicked() {
 
         Intent intent = new Intent(this, CheatActivity.class);
-        intent.putExtra(CheatActivity.EXTRA_ANSWER, answersArray[questionIndex]); // key, value
-        //startActivity(intent);
+        intent.putExtra(CheatActivity.EXTRA_ANSWER, answersArray[questionIndex]);
         startActivityForResult(intent, CHEAT_REQUEST);
     }
 
@@ -175,26 +223,15 @@ public class QuestionActivity extends AppCompatActivity {
 
         if (requestCode == CHEAT_REQUEST && resultCode == RESULT_OK && intent != null) {
 
-            // si has visto la respuesta o no !
             boolean answerCheated = intent.getBooleanExtra(
                 CheatActivity.EXTRA_CHEATED, false
             );
 
             //Log.d(TAG, "answerCheated: " + answerCheated);
 
-            if (answerCheated) { // si que has visto la respuesta
-
-                nextButtonEnabled = true; // adaptacion para "onNextButtonClicked()"
-                onNextButtonClicked(); // simular clic en boton "NExt"
-
-                /*questionIndex++;
-
-                checkQuizCompletion();
-
-                if (questionIndex < questionsArray.length) {
-                    //trueButtonPressed = false;
-                    updateLayoutContent();
-                }*/
+            if (answerCheated) {
+                nextButtonEnabled = true;
+                onNextButtonClicked();
             }
 
         }

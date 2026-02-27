@@ -11,6 +11,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import es.ulpgc.eite.da.basicquiz.QuestionActivity;
 import es.ulpgc.eite.da.basicquiz.R;
@@ -88,7 +89,6 @@ public class QuizSteps {
         onView(withId(R.id.nextButton)).check(matches(isEnabled()));
     }
 
-    /*
 
     @When("girar pantalla")
     public void girarPantalla() {
@@ -112,7 +112,27 @@ public class QuizSteps {
         } catch (InterruptedException e) {
         }
     }
-    */
+
+    /*@When("girar pantalla")
+    public void girarPantalla() {
+
+
+        scenario.onActivity(activity -> {
+            activity.setRequestedOrientation(SCREEN_ORIENTATION_LANDSCAPE);
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+            }
+
+            activity.setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+            }
+        });
+    }*/
 
     @And("pulsar boton Cheat")
     public void pulsarBotonCheat() {

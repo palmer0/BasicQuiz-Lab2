@@ -13,9 +13,10 @@ public class CheatActivity extends AppCompatActivity {
   public static final String TAG = "Quiz.CheatActivity";
 
 
-  //public final static String EXTRA_ANSWER = "EXTRA_ANSWER";
-  public final static String EXTRA_ANSWER = "RESPUESTA_A_PREGUNTA_ACTUAL";
+  public final static String EXTRA_ANSWER = "EXTRA_ANSWER";
   public final static String EXTRA_CHEATED = "EXTRA_CHEATED";
+  public final static String KEY_ANSWER = "KEY_ANSWER";
+  public final static String KEY_CHEATED = "KEY_CHEATED";
 
   private Button noButton, yesButton;
   private TextView answerField;
@@ -31,19 +32,46 @@ public class CheatActivity extends AppCompatActivity {
 
     Log.d(TAG, "onCreate");
 
+    // TODO: Recuperar estado de pantalla si estoy recreandola
+
     linkLayoutComponents();
     initLayoutData();
     initLayoutButtons();
   }
 
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    Log.d(TAG, "onResume");
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+
+    Log.d(TAG, "onPause");
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+
+    Log.d(TAG, "onDestroy");
+  }
+
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+
+    // TODO: guardar estado actual de pantalla
+  }
 
   private void initLayoutData() {
     Intent intent = getIntent();
 
     if ( intent != null) {
       currentAnswer = intent.getExtras().getInt(EXTRA_ANSWER);
-
-    Log.d(TAG, "currentAnswer: " + currentAnswer);
     }
   }
 
@@ -68,7 +96,7 @@ public class CheatActivity extends AppCompatActivity {
 
     Intent intent = new Intent();
     intent.putExtra(EXTRA_CHEATED, answerCheated);
-    setResult(RESULT_OK, intent); // RESULT_CANCELED
+    setResult(RESULT_OK, intent);
 
     finish();
 
@@ -83,31 +111,27 @@ public class CheatActivity extends AppCompatActivity {
     returnCheatedStatus();
   }
 
-    private void updateLayoutContent() {
-
-        if(currentAnswer == 0) {
-            answerField.setText(R.string.false_text);
-        } else { // currentAnswer == 1
-            answerField.setText(R.string.true_text);
-
-        }
-    }
 
   private void onYesButtonClicked() {
     yesButton.setEnabled(false);
     noButton.setEnabled(false);
-
-    answerCheated = true; // has visto la respuesta
+    answerCheated = true;
     updateLayoutContent();
   }
 
+  private void updateLayoutContent() {
 
+    if(currentAnswer == 0) {
+      answerField.setText(R.string.false_text);
+    } else {
+      answerField.setText(R.string.true_text);
+
+    }
+  }
 
   private void onNoButtonClicked() {
     yesButton.setEnabled(false);
     noButton.setEnabled(false);
-
-    answerCheated = false;
 
     returnCheatedStatus();
   }
